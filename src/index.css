@@ -147,8 +147,8 @@ nav svg {
   position: absolute;
   top: -0.6rem;
   right: -0.6rem;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
   background: var(--clr-primary-light);
   display: flex;
