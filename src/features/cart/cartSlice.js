@@ -3,7 +3,7 @@ import cartItems from "../../cartItems";
 
 const initialState = {
   cartItems: cartItems, //TODO: for now till we dont have api configured
-  amount: 0, // each item specific count
+  amount: 1, // each item specific count
   total: 0,
   isLoading: true,
 };
@@ -13,18 +13,18 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     increment: (state) => {
-      state.value += 1;
+      state.value += 1; // immer mutates the state for us behind the scenes
     },
     decrement: (state) => {
       state.value -= 1;
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    ClearCart: (state) => {
+      state.cartItems = [];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = cartSlice.actions;
+export const { increment, decrement, ClearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
