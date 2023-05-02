@@ -2,11 +2,17 @@ import React from "react";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { ClearCart } from "../features/cart/cartSlice";
+import { setModal } from "../features/modal/modalSlice";
 
 const CartContainer = () => {
   const dispatch = useDispatch();
   const { cartItems, total, amount } = useSelector((state) => state.cart); // destructured all of them at one place
   console.log(total, amount);
+
+  const handleClear = () => {
+    dispatch(setModal(true));
+    // dispatch(ClearCart())
+  };
 
   if (amount < 1) {
     return (
@@ -32,10 +38,11 @@ const CartContainer = () => {
         <hr />
         <div className="cart-total">
           <h4>
-            total <span>${total}</span>
+            total <span>${amount.toFixed(2)}</span>{" "}
+            {/* toFixed(number) keeps the amount till two decimal places like the 'round' function in python */}
           </h4>
         </div>
-        <button className="btn clear-tbn" onClick={() => dispatch(ClearCart())}>
+        <button className="btn clear-tbn" onClick={handleClear}>
           Clear Cart
         </button>
       </footer>
