@@ -5,8 +5,6 @@ import { setModal } from "../features/modal/modalSlice";
 
 const Modal = () => {
   const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.modal.isOpen);
-
   return (
     <aside className="modal-container">
       <div className="modal">

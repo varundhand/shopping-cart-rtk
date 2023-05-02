@@ -1,23 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
-import cartItems from "../../cartItems";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+// import { userAPI } from "./userAPI";
+import axios from "axios";
 
 const initialState = {
-  cartItems: cartItems, //TODO: for now till we dont have api configured
+  cartItems: [],
   amount: 1, // each item specific count
   total: 0,
   isLoading: true,
 };
 
+const url = `https://course-api.com/react-useReducer-cart-project`;
+
+export const getCartItems = createAsyncThunk(
+  "cart/getCartItems",
+  async (thunkAPI) => {
+    // thunkAPI is an object passed as an argument which provides us with methods such as distpacth, getState, extra, etc
+    try {
+      const response = await axios(url);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong");
+    }
+  }
+);
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1; // immer mutates the state for us behind the scenes
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
     ClearCart: (state) => {
       state.cartItems = [];
     },
@@ -53,17 +63,25 @@ export const cartSlice = createSlice({
       state.amount = amount;
     },
   },
+  extraReducers: (builder) => {
+    // these are LIFE CYCLE ACTIONS
+    builder.addCase(getCartItems.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getCartItems.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.isLoading = false;
+      state.cartItems = action.payload;
+    });
+    builder.addCase(getCartItems.rejected, (state, action) => {
+      state.isLoading = false;
+      console.log(action.payload);
+    });
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  increment,
-  decrement,
-  ClearCart,
-  removeItem,
-  increase,
-  decrease,
-  calculateTotals,
-} = cartSlice.actions;
+export const { ClearCart, removeItem, increase, decrease, calculateTotals } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
