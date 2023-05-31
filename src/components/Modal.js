@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ClearCart } from "../features/cart/cartSlice";
 import { setModal } from "../features/modal/modalSlice";
 
